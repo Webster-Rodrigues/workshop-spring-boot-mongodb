@@ -15,22 +15,36 @@ import com.websterProjects.workshopmongo.services.exception.ObjectNotFoundExcept
 public class UserService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository repository;
 	
 	
 	
 	public List<User> findAll(){
-		return userRepository.findAll();
+		return repository.findAll();
 	}
 	
 	public User findById(String id) {
-		Optional<User> obj = userRepository.findById(id);
+		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 		}
 	
 	
 	public User insert (User user) {
-		return userRepository.insert(user);
+		return repository.insert(user);
+	}
+	
+	public void delete(String id) {
+		if(!repository.existsById(id)) {
+			throw new ObjectNotFoundException(id);
+		}
+		
+		try {
+			repository.deleteById(id);
+		}
+		catch (Exception e) {
+			e.getMessage();
+		}
+		
 	}
 	
 	public User fromDTO(UserDTO userDTO) {
