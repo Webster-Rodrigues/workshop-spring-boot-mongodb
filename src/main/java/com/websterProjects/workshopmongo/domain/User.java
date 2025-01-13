@@ -1,8 +1,11 @@
 package com.websterProjects.workshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user") //Indica que essa classe corresponde uma coleção do MongoDB
@@ -13,6 +16,9 @@ public class User implements Serializable{
 	private String id;
 	private String name;
 	private String email;
+	
+	@DBRef (lazy = true) //Sinaliza que esse atributo referencia a coleção "post" E garante que os Posts do usuário só vão ser visualizados quando explicitar o acesso
+	private List<Post> posts = new ArrayList<>();
 	
 	
 	public User() {
@@ -54,6 +60,16 @@ public class User implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 
