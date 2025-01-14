@@ -1,5 +1,6 @@
 package com.websterProjects.workshopmongo.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.websterProjects.workshopmongo.domain.Post;
-import com.websterProjects.workshopmongo.dto.UserDTO;
 import com.websterProjects.workshopmongo.repository.PostRepository;
 import com.websterProjects.workshopmongo.services.exception.ObjectNotFoundException;
 
@@ -27,5 +27,10 @@ public class PostService {
 		return repository.findByTitle(title);
 	}
 	
+	
+	public List<Post> fullSearch (String title, Date minDate, Date maxDate){
+		maxDate = new Date(maxDate.getTime());
+		return repository.fullSearch(title, minDate, maxDate);
+	}
 
 }

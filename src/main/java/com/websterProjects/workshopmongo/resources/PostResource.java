@@ -1,5 +1,6 @@
 package com.websterProjects.workshopmongo.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,20 @@ public class PostResource {
 	
 	
 	@GetMapping(value = "/titlesearch")
-	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String tetx){
-		List<Post> list = service.findByTitle(URL.decodeParam(tetx));
+	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){
+		List<Post> list = service.findByTitle(URL.decodeParam(text));
 		return ResponseEntity.ok().body(list);		
 	}
 	
+	
+	@GetMapping(value = "/fullsearch")
+	public ResponseEntity<List<Post>> fullSearch(
+			@RequestParam(value = "text", defaultValue = "") String text,
+			@RequestParam(value = "minDate", defaultValue = "") String minDate,
+			@RequestParam(value = "maxDate", defaultValue = "") String maxDate){
+		List<Post> list = service.fullSearch(URL.decodeParam(text), URL.decodeDate(minDate, new Date(0)), URL.decodeDate(maxDate, new Date(0)));
+		return ResponseEntity.ok().body(list);		
+	}
 	
 	
 }
